@@ -19,6 +19,6 @@ func writeUser() string {
 	return str
 }
 
-func convertersValue(num, val1, val2 float64) string {
-	
-}
+// func convertersValue(num, val1, val2 float64) string {
+
+// }
