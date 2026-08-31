@@ -9,8 +9,14 @@ const (
 	usdInEur float64 = 0.86
 	euRInRub float64 = usdInRub / usdInEur
 )
-	
+
+var currencyRates = map[string]float64{
+	"USD": 1,
+	"EUR": 1 / usdInEur,
+	"RUB": 1 / usdInRub,
+}
 func main() {
+	
 	fmt.Println("___ Конвертер валюты ___")
 	for {
 		userCurrency := getCurrency()
@@ -30,25 +36,33 @@ func main() {
 }
 
 func finishConvert(userCurrency, convertCurrency string, userAmount float64) float64 {
-	var result float64
-	switch {
-	case userCurrency == "USD" && convertCurrency == "RUB":
-		result = userAmount * usdInRub
-	case userCurrency == "USD" && convertCurrency == "EUR":
-		result = userAmount * usdInEur
-	case userCurrency == "RUB" && convertCurrency == "USD":
-		result = userAmount / usdInRub
-	case userCurrency == "RUB" && convertCurrency == "EUR":
-		result = userAmount / euRInRub
-	case userCurrency == "EUR" && convertCurrency == "RUB":
-		result = userAmount * euRInRub
-	case userCurrency == "EUR" && convertCurrency == "USD":
-		result = userAmount / usdInEur
-	default: fmt.Println("Что то пошло не так!")
-		result = 0
+	if userCurrency == convertCurrency {
+		return userAmount
 	}
-	return result
+	fromRate := currencyRates[userCurrency]
+	toRate := currencyRates[convertCurrency]
+	return userAmount * fromRate / toRate
 }
+// func finishConvert(userCurrency, convertCurrency string, userAmount float64) float64 {
+// 	var result float64
+// 	switch {
+// 	case userCurrency == "USD" && convertCurrency == "RUB":
+// 		result = userAmount * usdInRub
+// 	case userCurrency == "USD" && convertCurrency == "EUR":
+// 		result = userAmount * usdInEur
+// 	case userCurrency == "RUB" && convertCurrency == "USD":
+// 		result = userAmount / usdInRub
+// 	case userCurrency == "RUB" && convertCurrency == "EUR":
+// 		result = userAmount / euRInRub
+// 	case userCurrency == "EUR" && convertCurrency == "RUB":
+// 		result = userAmount * euRInRub
+// 	case userCurrency == "EUR" && convertCurrency == "USD":
+// 		result = userAmount / usdInEur
+// 	default: fmt.Println("Что то пошло не так!")
+// 		result = 0
+// 	}
+// 	return result
+// }
 
 func getConvertCurrency(userCurrency string) string {
 	var convertCurrency string
