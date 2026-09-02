@@ -10,7 +10,7 @@ const (
 	euRInRub float64 = usdInRub / usdInEur
 )
 
-var currencyRates = map[string]float64{
+var currencyRates = &map[string]float64{
 	"USD": 1,
 	"EUR": 1 / usdInEur,
 	"RUB": 1 / usdInRub,
@@ -36,12 +36,7 @@ func main() {
 }
 
 func finishConvert(userCurrency, convertCurrency string, userAmount float64) float64 {
-	if userCurrency == convertCurrency {
-		return userAmount
-	}
-	fromRate := currencyRates[userCurrency]
-	toRate := currencyRates[convertCurrency]
-	return userAmount * fromRate / toRate
+	return userAmount * (*currencyRates)[userCurrency] / (*currencyRates)[convertCurrency]
 }
 // func finishConvert(userCurrency, convertCurrency string, userAmount float64) float64 {
 // 	var result float64
